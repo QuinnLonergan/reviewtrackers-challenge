@@ -15,8 +15,15 @@ class Scraper
 
     def make_reviews
         self.get_reviews.each do |review|
+            puts "REVIEW STARTING:"
             puts review.css(".reviewTitle").text
-            
+            puts review.css(".reviewText").text
+            puts review.css('p.consumerName > text()').text
+            puts review.css('div.numRec > text()').text
+            puts review.css(".consumerReviewDate").text
+            puts review.css(".yes").text
+            puts review.css(".loanType")[0].text
+            puts review.css(".loanType")[1].text
         end
         "hello"
     end
