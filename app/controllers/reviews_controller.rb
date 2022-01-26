@@ -30,20 +30,15 @@ class ReviewsController < ApplicationController
       head :no_content
     end
 
-    def show_genre
-      cardstacks = Cardstack.where(user_id: 3)
-      render json: cardstacks
-    end
-  
   
     private
   
-    def find_cardstack
-      Cardstack.find(params[:id])
+    def find_review
+      Review.find(params[:id])
     end
   
-    def cardstack_params
-      params.permit(:name, :user_id)
+    def review_params
+      params.permit(:title, :content, :author, :rating, :date, :closed, :loantype, :reviewtype)
     end
   
     def render_not_found_response
