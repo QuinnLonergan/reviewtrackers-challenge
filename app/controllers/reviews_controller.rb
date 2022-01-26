@@ -30,6 +30,11 @@ class ReviewsController < ApplicationController
       head :no_content
     end
 
+    def get_reviews
+        reviews = Scraper.new.make_reviews(url)
+        render json: review, status: :created
+    end
+
   
     private
   
