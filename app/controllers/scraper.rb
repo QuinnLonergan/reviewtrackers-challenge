@@ -1,6 +1,8 @@
 require 'nokogiri'
 require 'open-uri'
 
+require_relative './titles.rb'
+
 class Scraper
 
     def get_page
@@ -8,14 +10,16 @@ class Scraper
     end
 
     def get_reviews
-        self.get_page.css(".col-xs-12.mainReviews")
+        review = self.get_page.css(".col-xs-12.mainReviews")
     end
 
     def make_reviews
         self.get_reviews.each do |review|
-            puts "hi"
-            # review.css(".reviewTitle").text.strip
+            puts review.css(".reviewTitle").text
+            # title = Titles.new
+            # title.title = review.css(".reviewTitle").text
         end
+        "hello"
     end
 
 
