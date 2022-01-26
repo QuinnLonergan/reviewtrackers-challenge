@@ -31,8 +31,9 @@ class ReviewsController < ApplicationController
     end
 
     def get_reviews
-        reviews = Scraper.new.make_reviews(url)
-        render json: review, status: :created
+        Review.all.destroy_all
+        reviews = Scraper.new.make_reviews(url_params)
+        render json: reviews, status: :created
     end
 
   
@@ -40,6 +41,10 @@ class ReviewsController < ApplicationController
   
     def find_review
       Review.find(params[:id])
+    end
+
+    def url_params
+        params.permit(:url)
     end
   
     def review_params

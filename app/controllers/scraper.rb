@@ -6,7 +6,7 @@ require_relative './titles.rb'
 class Scraper
 
     def get_page(url)
-        Nokogiri::HTML(URI.open("https://www.lendingtree.com/reviews/personal/first-midwest-bank/52903183"))
+        Nokogiri::HTML(URI.open(url[:url].to_s))
     end
 
     def get_reviews(url)
@@ -18,7 +18,7 @@ class Scraper
    
            if review.css(".yes").text.to_s == "Yes"
                closed = true
-           elsif review.css(".yes").text.to_s == "No"
+           else
                closed = false
            end
 
@@ -32,8 +32,6 @@ class Scraper
                 loantype: review.css(".loanType")[0].text, 
                 reviewtype: review.css(".loanType")[1].text)
         end
-        "hello"
+        Review.all
     end
-
-
 end
