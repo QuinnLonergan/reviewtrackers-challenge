@@ -16,8 +16,7 @@ class Scraper
     def make_reviews
         self.get_reviews.each do |review|
             puts review.css(".reviewTitle").text
-            # title = Titles.new
-            # title.title = review.css(".reviewTitle").text
+            
         end
         "hello"
     end
