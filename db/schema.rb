@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2022_01_26_160709) do
     t.string "title"
     t.text "content"
     t.string "author"
-    t.integer "rating"
+    t.string "rating"
     t.string "date"
     t.boolean "closed"
     t.string "loantype"

@@ -4,7 +4,7 @@ class CreateReviews < ActiveRecord::Migration[6.1]
       t.string :title
       t.text :content
       t.string :author
-      t.integer :rating
+      t.string :rating
       t.string :date
       t.boolean :closed
       t.string :loantype
