@@ -6,4 +6,4 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Review.create(title: "test", content: "test", author: "test", rating: 5, date: "test", closed: true, loantype: "test", reviewtype: "test")
+# Review.create(title: "test", content: "test", author: "test", rating: 5, date: "test", closed: true, loantype: "test", reviewtype: "test")

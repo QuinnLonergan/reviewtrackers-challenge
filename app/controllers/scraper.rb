@@ -1,15 +1,15 @@
 require 'nokogiri'
 require 'open-uri'
 
-
 class Scraper
 
     def get_page(url, page)
-        Nokogiri::HTML(URI.open(url[:url] + `?sort=&pid=#{page}`))
+        reviews = Nokogiri::HTML(URI.open(url[:url] + `?sort=&pid=#{page}`))
     end
 
 
     def make_reviews(url)
+        begin
         page = 1
 
         reviews_num = self.get_page(url, page).css(".col-xs-12.mainReviews")
@@ -41,12 +41,11 @@ class Scraper
              end
              page += 1
         end
-        Review.all.where(url: url[:url])
+        rescue => error
+            render json: {error: "Invalid URL"}, status: 500
+        else
+            Review.all.where(url: url[:url])
+        end
     end
 
-    private 
-
-    def render_not_found_response
-        render json: { error: "Url not valid" }, status: :not_found
-    end
 end
