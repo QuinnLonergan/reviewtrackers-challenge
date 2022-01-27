@@ -15,7 +15,7 @@ class ReviewsController < ApplicationController
       review = Review.create!(review_params)
       render json: review, status: :created
     rescue ActiveRecord::RecordInvalid => invalid 
-      render json: {error: "invalid!"}, status: 422
+      render json: {error: "Invalid Parameters"}, status: 422
     end
   
     def update
@@ -47,7 +47,7 @@ class ReviewsController < ApplicationController
     end
   
     def review_params
-      params.permit(:title, :content, :author, :rating, :date, :closed, :loantype, :reviewtype)
+      params.permit(:title, :content, :author, :rating, :date, :closed, :loantype, :reviewtype, :url)
     end
   
     def render_not_found_response
