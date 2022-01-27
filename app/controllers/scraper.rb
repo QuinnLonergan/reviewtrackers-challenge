@@ -4,7 +4,6 @@ require 'open-uri'
 
 class Scraper
 
-
     def get_page(url, page)
         Nokogiri::HTML(URI.open(url[:url] + `?sort=&pid=#{page}`))
     end
@@ -18,7 +17,7 @@ class Scraper
         total = self.get_page(url, page).css(".start-rating-reviews").css(".hidden-xs").text.split[0].to_i
         last_page = (total.to_f / per_page.to_f).round
 
-        while page <= last_page
+        while page <= 3
             reviews = self.get_page(url, page).css(".col-xs-12.mainReviews")
             reviews.each do |review|
    
@@ -43,5 +42,11 @@ class Scraper
              page += 1
         end
         Review.all.where(url: url[:url])
+    end
+
+    private 
+
+    def render_not_found_response
+        render json: { error: "Url not valid" }, status: :not_found
     end
 end
