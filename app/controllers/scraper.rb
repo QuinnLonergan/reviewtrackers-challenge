@@ -30,8 +30,10 @@ class Scraper
                 date: review.css(".consumerReviewDate").text, 
                 closed: closed, 
                 loantype: review.css(".loanType")[0].text, 
-                reviewtype: review.css(".loanType")[1].text)
+                reviewtype: review.css(".loanType")[1].text,
+                url: url[:url]
+            )
         end
-        Review.all
+        Review.all.where(url: url[:url])
     end
 end

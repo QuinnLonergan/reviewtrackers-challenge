@@ -31,7 +31,6 @@ class ReviewsController < ApplicationController
     end
 
     def get_reviews
-        Review.all.destroy_all
         reviews = Scraper.new.make_reviews(url_params)
         render json: reviews, status: :created
     end
