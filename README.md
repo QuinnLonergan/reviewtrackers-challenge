@@ -21,6 +21,7 @@ To get set up, run:
 
 ```console
 $ bundle install
+$ rails db:migrate
 ```
 
 You can run the Rails server with:
