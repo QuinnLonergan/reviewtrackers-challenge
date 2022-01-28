@@ -13,7 +13,13 @@ class Scraper
     end
 
     def get_page(page)
-        reviews = Nokogiri::HTML(URI.open(@url + `?sort=&pid=#{page}`))
+        if page == 1 
+            url_page = (@url)
+        elsif page > 1
+            url_page = ("#{@url}?sort=\\&pid=#{page}")
+        end 
+        puts "HEY RIGHT HERE THE PAGE IS #{page}}"
+        reviews = Nokogiri::HTML(URI.open(url_page))
     end
 
     def errors?
@@ -23,22 +29,46 @@ class Scraper
 
     def make_reviews
         begin
-        page = 1
+        page = 26
+
 
         reviews_num = self.get_page(page).css(".col-xs-12.mainReviews")
         per_page = reviews_num.count
         total = self.get_page(page).css(".start-rating-reviews").css(".hidden-xs").text.split[0].to_i
-        last_page = (total.to_f / per_page.to_f).round
+        last_page = (total.to_f / per_page.to_f).round()
 
-        while page <= 3
+        
+
+        while page <= last_page
             reviews = self.get_page(page).css(".col-xs-12.mainReviews")
             reviews.each do |review|
    
-                if review.css(".yes").text.to_s == "Yes"
+                if review.css(".yes").text.to_s .== "Yes"
                     closed = true
                 else
                     closed = false
                 end
+
+            #    if review.css(".loanType")[0].text && review.css(".loanType")[1].text
+            #        loantype = review.css(".loanType")[0].text
+            #        reviewtype = review.css(".loanType")[1].text
+            #    else
+            #        loantype = "N/A"
+            #        reviewtype = "N/A"
+            #    end
+
+                puts review.css(".reviewTitle").text, 
+                puts review.css(".reviewText").text, 
+                puts review.css('p.consumerName > text()').text, 
+                puts review.css('div.numRec > text()').text, 
+                puts review.css(".consumerReviewDate").text, 
+                puts review.css(".loanType")[0].text, 
+                puts review.css(".loanType")[1].text, 
+                puts reviewtype,
+                puts @url
+
+                # puts obj
+
      
                  Review.create(
                      title: review.css(".reviewTitle").text, 
@@ -48,12 +78,13 @@ class Scraper
                      date: review.css(".consumerReviewDate").text, 
                      closed: closed, 
                      loantype: review.css(".loanType")[0].text, 
-                     reviewtype: review.css(".loanType")[1].text,
+                     reviewtype: review.css(".loanType")[1].text, 
                      url: @url
                  )
              end
-             page += 1
+            page += 1
         end
+
         rescue => error
             @errors = error
         else 
