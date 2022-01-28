@@ -14,6 +14,7 @@ gem 'puma', '~> 5.0'
 
 gem 'nokogiri', '~> 1.13.1'
 gem 'open-uri'
+gem 'rails_helper'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'

@@ -31,11 +31,15 @@ class ReviewsController < ApplicationController
     end
 
     def get_reviews
-        if url_params[:url].include? "www.lendingtree.com/reviews"
-        reviews = Scraper.new.make_reviews(url_params)
-        render json: reviews, status: :created
-        else
-        render json: {error: "Invalid URL"}, status: 422
+        scraper = Scraper.new(url_params)
+        reviews = scraper.make_reviews
+
+        if !scraper.valid_url?
+            render json: {error: "Invalid URL"}, status: 422
+        elsif scraper.errors?
+            render json: {error: "Must be lender URL"}, status: 422
+        elsif scraper.valid_url?
+            render json: reviews, status: :created
         end
     end
 
