@@ -18,7 +18,7 @@ class Scraper
         elsif page > 1
             url_page = ("#{@url}?sort=\\&pid=#{page}")
         end 
-        puts "Scraping page #{page}"
+        # puts "Scraping page #{page}"
         reviews = Nokogiri::HTML(URI.open(url_page))
     end
 
