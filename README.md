@@ -42,7 +42,7 @@ The tests are checking the following functionality:
 - Returns an error for an invalid url.
 - Returns an error for an invalid lendingtree url.
 
-To manually test the API with your own URL, make a post request to http://localhost:3000/collect_reviews with an API testing application such as postman:
+To manually test the API with your own URL, make a post request to http://localhost:3000/collect_reviews with an API testing application such as Postman:
 
 ```console
 {
