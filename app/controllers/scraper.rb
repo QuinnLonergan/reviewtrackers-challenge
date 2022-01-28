@@ -29,7 +29,7 @@ class Scraper
 
     def make_reviews
         begin
-        page = 26
+        page = 1
 
 
         reviews_num = self.get_page(page).css(".col-xs-12.mainReviews")
@@ -49,26 +49,15 @@ class Scraper
                     closed = false
                 end
 
-            #    if review.css(".loanType")[0].text && review.css(".loanType")[1].text
-            #        loantype = review.css(".loanType")[0].text
-            #        reviewtype = review.css(".loanType")[1].text
-            #    else
-            #        loantype = "N/A"
-            #        reviewtype = "N/A"
-            #    end
 
-                puts review.css(".reviewTitle").text, 
-                puts review.css(".reviewText").text, 
-                puts review.css('p.consumerName > text()').text, 
-                puts review.css('div.numRec > text()').text, 
-                puts review.css(".consumerReviewDate").text, 
-                puts review.css(".loanType")[0].text, 
-                puts review.css(".loanType")[1].text, 
-                puts reviewtype,
-                puts @url
-
-                # puts obj
-
+                # Some reviews don't have loantype and reviewtype, this is logic to prevent a 422 error.
+                if review.css(".loanType")[0] && review.css(".loanType")[1]
+                    loantype = review.css(".loanType")[0].text
+                    reviewtype = review.css(".loanType")[1].text
+                else
+                    loantype = "N/A"
+                    reviewtype = "N/A"
+                end
      
                  Review.create(
                      title: review.css(".reviewTitle").text, 
@@ -77,8 +66,8 @@ class Scraper
                      rating: review.css('div.numRec > text()').text, 
                      date: review.css(".consumerReviewDate").text, 
                      closed: closed, 
-                     loantype: review.css(".loanType")[0].text, 
-                     reviewtype: review.css(".loanType")[1].text, 
+                     loantype: loantype, 
+                     reviewtype: reviewtype,
                      url: @url
                  )
              end
