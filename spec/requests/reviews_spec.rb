@@ -6,14 +6,15 @@ RSpec.describe "review API", :type => :request do
     it "returns a list of reviews with correct parameters from a valid lendingtree url" do
       post "/get_reviews", params: {url: "https://www.lendingtree.com/reviews/mortgage/loansnap/39777117"}
       json_response = JSON.parse(response.body)
-      expect(json_response[0]["title"]).to be_a(String)
-      expect(json_response[0]["content"]).to be_a(String)
-      expect(json_response[0]["author"]).to be_a(String)
-      expect(json_response[0]["rating"]).to be_a(String)
-      expect(json_response[0]["closed"]).to be_in([true, false])
-      expect(json_response[0]["loantype"]).to be_a(String)
-      expect(json_response[0]["reviewtype"]).to be_a(String)
-      expect(json_response[0]["url"]).to be_a(String)
+      instance = json_response[0]
+      expect(instance["title"]).to be_a(String)
+      expect(instance["content"]).to be_a(String)
+      expect(instance["author"]).to be_a(String)
+      expect(instance["rating"]).to be_a(String)
+      expect(instance["closed"]).to be_in([true, false])
+      expect(instance["loantype"]).to be_a(String)
+      expect(instance["reviewtype"]).to be_a(String)
+      expect(instance["url"]).to be_a(String)
       expect(response.status).to eq 201
     end
   end
