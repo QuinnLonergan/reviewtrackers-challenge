@@ -1,6 +1,8 @@
 class ReviewsController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
+    # Basic CRUD
+
     def index
       reviews = Review.all
       render json: reviews
@@ -29,6 +31,8 @@ class ReviewsController < ApplicationController
       review.destroy
       head :no_content
     end
+
+    # Method to collect reviews from URL
 
     def collect_reviews
         scraper = Scraper.new(url_params)

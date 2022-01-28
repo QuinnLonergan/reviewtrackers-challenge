@@ -14,12 +14,12 @@ class Scraper
 
     def get_page(page)
         if page == 1 
-            url_page = (@url)
+            url_with_page = (@url)
         elsif page > 1
-            url_page = ("#{@url}?sort=\\&pid=#{page}")
+            url_with_page = ("#{@url}?sort=\\&pid=#{page}")
         end 
         # puts "Scraping page #{page}"
-        reviews = Nokogiri::HTML(URI.open(url_page))
+        reviews = Nokogiri::HTML(URI.open(url_with_page))
     end
 
     def errors?
@@ -31,18 +31,17 @@ class Scraper
         begin
         page = 1
 
-
         reviews_num = self.get_page(page).css(".col-xs-12.mainReviews")
         per_page = reviews_num.count
         total = self.get_page(page).css(".start-rating-reviews").css(".hidden-xs").text.split[0].to_i
-        last_page = (total.to_f / per_page.to_f).round()
 
-        
+        last_page = (total.to_f / per_page.to_f).round()
 
         while page <= last_page
             reviews = self.get_page(page).css(".col-xs-12.mainReviews")
             reviews.each do |review|
    
+                # converting closed text to a boolean
                 if review.css(".yes").text.to_s .== "Yes"
                     closed = true
                 else
@@ -50,7 +49,7 @@ class Scraper
                 end
 
 
-                # Some reviews don't have loantype and reviewtype, this is logic to prevent a 422 error.
+                # Some reviews don't have loantype and reviewtype, this is logic to prevent a 422 error for those.
                 if review.css(".loanType")[0] && review.css(".loanType")[1]
                     loantype = review.css(".loanType")[0].text
                     reviewtype = review.css(".loanType")[1].text
@@ -77,6 +76,7 @@ class Scraper
         rescue => error
             @errors = error
         else 
+            ##returning all the reviews for the url submitted, even ones that have been created in the past.
             Review.all.where(url: @url)
         end
     end

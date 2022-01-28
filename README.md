@@ -1,24 +1,53 @@
-# README
+# ReviewTrackers - Backend Code Challenge
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Introduction
 
-Things you may want to cover:
+This web service accepts requests of a lender URL from lendingtree.com (i.e. https://www.lendingtree.com/reviews/mortgage/loansnap/39777117) and uses a web scraper to collect all the reviews for the given lender and returns a json object for each review.
 
-* Ruby version
+If the same url is submitted twice, only new reviews will be created but ALL reviews for that url will still be returned.
 
-* System dependencies
+## Technologies
 
-* Configuration
+This project uses the following technologies:
+- Rails 6.1
+- Ruby 2.7
+- Nokogiri
+- Open Uri
+- Rspec
 
-* Database creation
+## Setup
 
-* Database initialization
+To get set up, run:
 
-* How to run the test suite
+```console
+$ bundle install
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+You can run the Rails server with:
 
-* Deployment instructions
+```console
+$ rails s
+```
 
-* ...
+And you can run the tests in spec/requests/reviews_spec.rb with:
+
+```console
+$ rspec spec/requests/reviews_spec.rb
+```
+
+The tests are checking the following functionality:
+- Returns a list of reviews with correct parameters from a valid lendingtree url.
+- Does not allow duplicate reviews to be posted.
+- Uses pagination to return every review for a given lender.
+- Returns an error for an invalid url.
+- Returns an error for an invalid lendingtree url.
+
+To manually test the API with your own URL, make a post request to http://localhost:3000/collect_reviews with an API testing application such as postman:
+
+```console
+{
+    "url": "YOUR URL HERE"
+}
+```
+
+
