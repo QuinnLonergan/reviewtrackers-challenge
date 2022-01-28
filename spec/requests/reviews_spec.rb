@@ -20,7 +20,17 @@ RSpec.describe "review API", :type => :request do
   end
 
   describe "get_reviews" do
-    it "returns a list of reviews from a valid lendingtree url" do
+    it "Does not allow duplicate reviews to be posted" do
+      post "/get_reviews", params: {url: "https://www.lendingtree.com/reviews/mortgage/grander-home-loans-inc/58426567"}
+      post "/get_reviews", params: {url: "https://www.lendingtree.com/reviews/mortgage/grander-home-loans-inc/58426567"}
+      json_response = JSON.parse(response.body)
+      expect(response.status).to eq 201
+      expect(json_response.uniq.count).to eq json_response.count
+    end
+  end
+
+  describe "get_reviews" do
+    it "Uses pagination to return every review for a given lender" do
       post "/get_reviews", params: {url: "https://www.lendingtree.com/reviews/mortgage/loansnap/39777117"}
       json_response = JSON.parse(response.body)
       expect(response.status).to eq 201
