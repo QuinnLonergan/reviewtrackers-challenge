@@ -30,7 +30,7 @@ class ReviewsController < ApplicationController
       head :no_content
     end
 
-    def get_reviews
+    def collect_reviews
         scraper = Scraper.new(url_params)
         reviews = scraper.make_reviews
 
