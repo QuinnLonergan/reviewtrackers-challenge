@@ -23,7 +23,7 @@ RSpec.describe "review API", :type => :request do
     it "returns an error for an invalid lendingtree url" do
       post "/get_reviews", params: {url: "https://www.lendingtree.com/reviews/"}
       json_response = JSON.parse(response.body)
-      expect(json_response).to eq "error" => "Invalid URL"
+      expect(json_response).to eq "error" => "Must be lender URL"
       expect(response.status).to eq 422
     end
   end
